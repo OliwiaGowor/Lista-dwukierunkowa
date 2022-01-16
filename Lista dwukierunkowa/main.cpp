@@ -1,6 +1,7 @@
 #include <iostream>
 #include <functional>
 
+
 template <class T>
 struct Node {
     T data;
@@ -13,7 +14,6 @@ class List {
 private:
     Node<T>* pHead;
     Node<T>* pTail;
-
 public:
     class const_iterator {
     protected:
@@ -21,11 +21,10 @@ public:
         Node<T>* current_node;
 
     public:
-        const_iterator(Node<T>* current_node){
+        const_iterator(Node<T>* current_node) : current_node(current_node) {
         }
 
-        const_iterator& operator++()
-        {
+        const_iterator& operator++() {
             if (current_node) {
                 current_node = current_node->pNext;
             }
@@ -38,7 +37,7 @@ public:
             return const_iterator(tmp);
         }
 
-        const_iterator& operator--() {
+          const_iterator& operator--() {
             if (current_node) {
                 current_node = current_node->pPrevious;
             }
@@ -59,23 +58,23 @@ public:
             return current_node;
         }
 
-        bool operator != (const const_iterator& it) const{
-            return it.current_node != this->current_node;
+        bool operator != (const const_iterator& it) const {
+           return it.current_node != this ->current_node;
         }
 
     };
 
-    class iterator : public const_iterator
+    class iterator: public const_iterator
     {
         friend class List;
-        const_iterator::current_node;
+        using const_iterator::current_node;
     public:
-        iterator(Node<T>* current_node) : const_iterator(current_node) {
+        iterator(Node<T>* current_node): const_iterator(current_node) {
         }
 
         iterator& operator++() {
-            if (current_node) {
-                (this->current_node = current_node->pNext);
+            if(current_node){
+            (this->current_node = current_node->pNext);
             }
             return *this;
         }
@@ -99,20 +98,20 @@ public:
             return it;
         }
 
-        T& operator *() {
-            return this->current_node->data;
-        }
+       T& operator *() {
+           return this->current_node->data;
+       }
 
         T* operator -> () {
             return this->current_node;
         }
-
     };
 
+public:
     List<T>() : pHead(nullptr), pTail(nullptr) {
     }
 
-    List<T>(const std::size_t size, const std::function<T(const std::size_t i)>& f) {
+    List<T>(const size_t size, const std::function<T(const size_t i)> &f) {
         for (int i = 0; i < size; ++i) {
             push_back(f(i));
         }
@@ -120,7 +119,7 @@ public:
 
     List<T>(const std::size_t size, T data) {
         for (int i = 0; i < size; ++i) {
-            push_back(T);
+            push_back(data);
         }
     }
 
@@ -130,11 +129,10 @@ public:
             delete pHead;
             pHead = tmp;
         }
-        delete pTail;
+        //delete pTail;
     }
 
-
-    std::size_t size() const noexcept {
+    size_t size() const noexcept {
         Node<T>* ptr = pHead;
         size_t tmp = 0;
         while (ptr) {
@@ -156,11 +154,12 @@ public:
         pTail = new_node;
     }
 
+
     void insert(iterator it, T new_data)
     {
         if (pHead) {
             if (it.current_node == pHead) {
-                Node<T>* new_node = new Node<T>;
+                Node<T> *new_node = new Node<T>;
                 new_node->data = new_data;
                 new_node->pNext = it.current_node;
                 pHead = new_node;
@@ -172,11 +171,10 @@ public:
                 tmp->pNext = it.current_node->pNext;
                 tmp->pPrevious = it.current_node;
                 it.current_node->pNext = tmp;
-
             }
         }
         else {
-            Node<T>* new_node = new Node<T>;
+            Node<T> *new_node = new Node<T>;
             new_node->data = new_data;
             pHead = pTail = new_node;
         }
@@ -194,7 +192,7 @@ public:
                     }
                     it.current_node->data = tmp->data;
                     it.current_node->pNext = tmp->pNext;
-                    it.current_node->pPrevious = tmp->pPrevious;
+                     it.current_node->pPrevious = tmp->pPrevious;
                     delete tmp;
                 }
                 else {
@@ -234,11 +232,11 @@ public:
         }
     }
 
-    const_iterator cbegin() const {
+    const_iterator begin() const {
         return const_iterator(pHead);
     }
 
-    const_iterator cend() const {
+    const_iterator end() const {
         return const_iterator(nullptr);
     }
 
@@ -258,7 +256,7 @@ public:
         return this->pTail;
     }
 
-    friend std::ostream& operator<< (std::ostream& out, const List<T>& l)
+    friend std::ostream& operator << (std::ostream& out, const List<T>& l)
     {
         Node<T>* ptr = l.pHead;
         while (ptr) {
@@ -270,12 +268,8 @@ public:
 
 };
 
-
-
-
-
 int main() {
-    List<double> lista(4, [](const size_t i) { return 1.0 + i; });
+     List<double> lista(4, [](const size_t i) { return 1.0 + i; });
     for (const auto& el : lista) std::cout << el << std::endl;
     std::cout << "Test 1" << std::endl;
     for (auto& el : lista) el *= 2.0;
@@ -295,7 +289,7 @@ int main() {
     std::cout << "Test 6" << std::endl;
 
     std::cout << "Znalezione: " << lista.find(6)->data << std::endl;
-    
+
     std::cout << "Pierwszy element: " << lista.front()->data << std::endl;
     std::cout << "Ostatni element: " << lista.back()->data << std::endl;
 
