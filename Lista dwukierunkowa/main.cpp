@@ -59,7 +59,7 @@ public:
             return current_node;
         }
 
-        bool operator != (const const_iterator<T>& it) const{
+        bool operator != (const const_iterator& it) const{
             return it.current_node != this->current_node;
         }
 
@@ -93,7 +93,7 @@ public:
             return *this;
         }
 
-        iterator<T> operator--(int) {
+        iterator operator--(int) {
             iterator it = *this;
             --* this;
             return it;
@@ -234,19 +234,19 @@ public:
         }
     }
 
-    const_iterator<T> cbegin() const {
+    const_iterator cbegin() const {
         return const_iterator(pHead);
     }
 
-    const_iterator<T> cend() const {
+    const_iterator cend() const {
         return const_iterator(nullptr);
     }
 
-    iterator<T> begin() {
+    iterator begin() {
         return iterator(pHead);
     }
 
-    iterator<T> end() {
+    iterator end() {
         return iterator(nullptr);
     }
 
@@ -269,12 +269,6 @@ public:
     }
 
 };
-
-
-
-
-
-
 
 
 
