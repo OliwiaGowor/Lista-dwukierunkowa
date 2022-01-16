@@ -111,7 +111,7 @@ public:
 
     List<T>() : pHead(nullptr), pTail(nullptr) {
     }
-\
+
     List<T>(const std::size_t size, const std::function<T(const std::size_t i)>& f) {
         for (int i = 0; i < size; ++i) {
             push_back(f(i));
